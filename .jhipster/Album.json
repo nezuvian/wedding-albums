@@ -1,0 +1,26 @@
+{
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "slug",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdAt",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "uploader",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20160506133458",
+    "dto": "no",
+    "service": "serviceClass",
+    "entityTableName": "album",
+    "pagination": "no"
+}
