@@ -13,7 +13,7 @@
             parent: 'entity',
             url: '/album',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: [],
                 pageTitle: 'Albums'
             },
             views: {
@@ -30,7 +30,7 @@
             parent: 'entity',
             url: '/album/{id}',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: [],
                 pageTitle: 'Album'
             },
             views: {
@@ -50,7 +50,7 @@
             parent: 'album',
             url: '/new',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: []
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -81,7 +81,7 @@
             parent: 'album',
             url: '/{id}/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: []
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -106,7 +106,7 @@
             parent: 'album',
             url: '/{id}/delete',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: []
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({

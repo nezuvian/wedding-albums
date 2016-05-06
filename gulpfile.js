@@ -34,7 +34,7 @@ gulp.task('clean', function () {
 });
 
 gulp.task('copy', function () {
-    return es.merge( 
+    return es.merge(
         gulp.src(config.bower + 'bootstrap/fonts/*.*')
         .pipe(plumber({errorHandler: handleErrors}))
         .pipe(changed(config.dist + 'content/fonts/'))
