@@ -9,60 +9,40 @@
         .module('weddingApp')
         .controller('UploadController', UploadController);
 
-    UploadController.$inject =  ['$scope', 'FileUploader'];
+    UploadController.$inject = ['$scope', 'Upload', '$cookies', '$stateParams'];
 
-    function UploadController ($scope, FileUploader){
-        var uploader = $scope.uploader = new FileUploader({
-            url: '/api/upload'
-        });
+    function UploadController($scope, Upload, $cookies, $stateParams) {
+        $scope.uploaded = false;
+        $scope.progress = 0;
+        $scope.rejFiles = [];
+        $scope.contentType = $stateParams.contentType;
 
-        // FILTERS
-
-        uploader.filters.push({
-            name: 'imageFilter',
-            fn: function(item /*{File|FileLikeObject}*/, options) {
-                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        $scope.uploadAll = function () {
+            if ($scope.files && $scope.files.length) {
+                for (var i = 0; i < $scope.files.length; i++) {
+                    (function (file) {
+                        $scope.upload(file);
+                    })($scope.files[i]);
+                }
             }
-        });
+        }
+        $scope.upload = function (file) {
+            file.upload = Upload.upload({
+                url: 'api/upload',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $cookies['CSRF-TOKEN']
+                },
+                fields: {
+                    '_csrf': $cookies['CSRF-TOKEN']
+                },
+                data: {
+                    file: file,
+                    'uploader': $scope.uploader
+                }
+            })
+        }
 
-        // CALLBACKS
-
-        uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-            console.info('onWhenAddingFileFailed', item, filter, options);
-        };
-        uploader.onAfterAddingFile = function(fileItem) {
-            console.info('onAfterAddingFile', fileItem);
-        };
-        uploader.onAfterAddingAll = function(addedFileItems) {
-            console.info('onAfterAddingAll', addedFileItems);
-        };
-        uploader.onBeforeUploadItem = function(item) {
-            console.info('onBeforeUploadItem', item);
-        };
-        uploader.onProgressItem = function(fileItem, progress) {
-            console.info('onProgressItem', fileItem, progress);
-        };
-        uploader.onProgressAll = function(progress) {
-            console.info('onProgressAll', progress);
-        };
-        uploader.onSuccessItem = function(fileItem, response, status, headers) {
-            console.info('onSuccessItem', fileItem, response, status, headers);
-        };
-        uploader.onErrorItem = function(fileItem, response, status, headers) {
-            console.info('onErrorItem', fileItem, response, status, headers);
-        };
-        uploader.onCancelItem = function(fileItem, response, status, headers) {
-            console.info('onCancelItem', fileItem, response, status, headers);
-        };
-        uploader.onCompleteItem = function(fileItem, response, status, headers) {
-            console.info('onCompleteItem', fileItem, response, status, headers);
-        };
-        uploader.onCompleteAll = function() {
-            console.info('onCompleteAll');
-        };
-
-        console.info('uploader', uploader);
     }
 
 }());

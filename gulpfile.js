@@ -1,4 +1,4 @@
-// Generated on 2016-05-06 using generator-jhipster 3.0.0
+// Generated on 2016-05-10 using generator-jhipster 3.0.0
 'use strict';
 
 var gulp = require('gulp'),
@@ -34,7 +34,7 @@ gulp.task('clean', function () {
 });
 
 gulp.task('copy', function () {
-    return es.merge(
+    return es.merge( 
         gulp.src(config.bower + 'bootstrap/fonts/*.*')
         .pipe(plumber({errorHandler: handleErrors}))
         .pipe(changed(config.dist + 'content/fonts/'))
