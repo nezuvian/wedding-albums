@@ -11,7 +11,7 @@
         $stateProvider
         .state('upload', {
             parent: 'app',
-            url: '/upload',
+            url: '/',
             data: {
                 authorities: [],
                 pageTitle: 'Upload'

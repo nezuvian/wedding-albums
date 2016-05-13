@@ -1,8 +1,10 @@
 package app.wedding.web.rest;
 
 import app.wedding.security.AuthoritiesConstants;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by ezolcho on 5/6/2016.
@@ -55,18 +60,20 @@ public class UploadController {
 
         if (!file.isEmpty()) {
             try {
-                File path = new File(curDir.getCanonicalPath() + File.separator + "uploads" + File.separator + uploader);
+                Date dt = new Date();
+                String date = new SimpleDateFormat("yyyy-MM-dd").format(dt);
+                File path = new File(curDir.getCanonicalPath() + File.separator + "uploads" + File.separator + date + File.separator + uploader);
                 LOG.info(path + File.separator + file.getOriginalFilename());
 
-//                if (path.mkdirs()) {
-                    stream = new BufferedOutputStream(
-                        new FileOutputStream(path + File.separator + file.getOriginalFilename())
-                    );
-                    FileCopyUtils.copy(file.getInputStream(), stream);
-//                    stream.flush();
-//                    stream.close();
-                    LOG.info("Upload finished");
-//                }
+                if (!path.exists()) {
+                    path.mkdirs();
+                }
+
+                stream = new BufferedOutputStream(
+                    new FileOutputStream(path + File.separator + file.getOriginalFilename())
+                );
+                FileCopyUtils.copy(file.getInputStream(), stream);
+                LOG.info("Upload finished");
             } catch (Exception e) {
                 LOG.warn(e.getMessage());
             }

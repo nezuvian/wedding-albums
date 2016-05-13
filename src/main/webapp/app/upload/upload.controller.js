@@ -18,13 +18,18 @@
         $scope.contentType = $stateParams.contentType;
 
         $scope.uploadAll = function () {
-            if ($scope.files && $scope.files.length) {
-                for (var i = 0; i < $scope.files.length; i++) {
-                    (function (file) {
-                        $scope.upload(file);
-                    })($scope.files[i]);
+            if ($scope.uploader == "" || $scope.uploader == null) {
+                alert("Add meg a feltőltő nevét");
+            } else {
+                if ($scope.files && $scope.files.length) {
+                    for (var i = 0; i < $scope.files.length; i++) {
+                        (function (file) {
+                            $scope.upload(file);
+                        })($scope.files[i]);
+                    }
                 }
             }
+            $scope.files = [];
         }
         $scope.upload = function (file) {
             file.upload = Upload.upload({
@@ -40,9 +45,14 @@
                     file: file,
                     'uploader': $scope.uploader
                 }
-            })
+            });
         }
 
+        $scope.removeFile = function (i) {
+            if ( i > -1) {
+                $scope.files.splice(i,1);
+            }
+        }
     }
 
 }());
