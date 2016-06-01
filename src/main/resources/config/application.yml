@@ -68,3 +68,6 @@ jhipster:
 multipart:
   max-file-size: 20Mb
   max-request-size: 1000Mb
+
+app:
+  uploads-dir: /Users/Charger/wedding-uploads/

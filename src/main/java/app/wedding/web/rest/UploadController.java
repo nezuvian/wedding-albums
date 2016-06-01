@@ -4,6 +4,7 @@ import app.wedding.security.AuthoritiesConstants;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,6 +41,9 @@ public class UploadController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
 
+    @Value("${app.uploads-dir}")
+    private String uploadsDirectory = null;
+
     /**
      * File upload handler method for file containing TTCN type schema.
      *
@@ -62,16 +66,23 @@ public class UploadController {
             try {
                 Date dt = new Date();
                 String date = new SimpleDateFormat("yyyy-MM-dd").format(dt);
-                File path = new File(curDir.getCanonicalPath() + File.separator + "uploads" + File.separator + date + File.separator + uploader);
+                String directory = uploadsDirectory == null ? curDir.getCanonicalPath() + File.separator + "uploads" : uploadsDirectory;
+                File path = new File(directory + File.separator + date + File.separator + uploader);
                 LOG.info(path + File.separator + file.getOriginalFilename());
 
                 if (!path.exists()) {
                     path.mkdirs();
                 }
 
-                stream = new BufferedOutputStream(
-                    new FileOutputStream(path + File.separator + file.getOriginalFilename())
-                );
+                File uploadedFile = new File(path + File.separator + file.getOriginalFilename());
+                int n = 0;
+                int extensionSeparator = file.getOriginalFilename().lastIndexOf(".");
+                while (uploadedFile.exists()) {
+                    String fileNameNamePart = file.getOriginalFilename().substring(0, extensionSeparator);
+                    String extension = file.getOriginalFilename().substring(extensionSeparator);
+                    uploadedFile = new File(path + File.separator + fileNameNamePart + "-" + ++n + extension);
+                }
+                stream = new BufferedOutputStream(new FileOutputStream(uploadedFile));
                 FileCopyUtils.copy(file.getInputStream(), stream);
                 LOG.info("Upload finished");
             } catch (Exception e) {
