@@ -3,12 +3,13 @@
 
     angular
         .module('weddingApp', [
-            'ngStorage', 
+            'ngStorage',
             'ngResource',
             'ngCookies',
             'ngAria',
             'ngCacheBuster',
             'ngFileUpload',
+            'jkuri.gallery',
             'ui.bootstrap',
             'ui.bootstrap.datetimepicker',
             'ui.router',

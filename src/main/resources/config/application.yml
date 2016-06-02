@@ -71,3 +71,4 @@ multipart:
 
 app:
   uploads-dir: /Users/Charger/wedding-uploads/
+  gallery-dir: /Users/Charger/wedding-albums/

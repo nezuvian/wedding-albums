@@ -4,6 +4,9 @@ package app.wedding.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,6 +33,9 @@ public class Album implements Serializable {
 
     @Column(name = "uploader")
     private String uploader;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "album")
+    private List<Picture> pictures = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -69,6 +75,22 @@ public class Album implements Serializable {
 
     public void setUploader(String uploader) {
         this.uploader = uploader;
+    }
+
+    public List<Picture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
+    }
+
+    public void addPicture(Picture picture) {
+        this.pictures.add(picture);
+    }
+
+    public void addPictures(Collection<Picture> pictures) {
+        this.pictures.addAll(pictures);
     }
 
     @Override

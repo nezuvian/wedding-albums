@@ -15,6 +15,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -90,10 +91,10 @@ public class AlbumResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
 //    @Secured(AuthoritiesConstants.ANONYMOUS)
-    public List<Album> getAllAlbums() {
+    public List<Album> getAllAlbums() throws IOException {
         log.debug("REST request to get all Albums");
 
-        List<Album> albums = new ArrayList<>();
+        List<Album> albums = albumService.findAll();
 
         return albums;
     }
