@@ -50,9 +50,10 @@ public class AlbumService {
     public List<Album> findAll() throws IOException {
         log.debug("Request to get all Albums");
         List<Album> result = new ArrayList<>();
-        result.add(findOne("official"));
-        result.add(findOne("uploaded"));
-        result.add(findOne("honeymoon"));
+        File path = new File(albumDirectory);
+        for (File file : path.listFiles()) {
+            result.add(findOne(file.getName()));
+        }
         return result;
     }
 
