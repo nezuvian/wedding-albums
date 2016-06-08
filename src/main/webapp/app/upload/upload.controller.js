@@ -9,14 +9,14 @@
         .module('weddingApp')
         .controller('UploadController', UploadController);
 
-    UploadController.$inject = ['$scope', 'Upload', '$cookies', '$stateParams', 'Album'];
+    UploadController.$inject = ['$scope', 'Upload', '$cookies', '$stateParams', 'Album', 'images'];
 
-    function UploadController($scope, Upload, $cookies, $stateParams, Album) {
+    function UploadController($scope, Upload, $cookies, $stateParams, Album, images) {
         $scope.uploaded = false;
         $scope.progress = 0;
         $scope.rejFiles = [];
         $scope.contentType = $stateParams.contentType;
-        $scope.images = [];
+        $scope.images = images;
 
         $scope.uploadAll = function () {
             if ($scope.uploader == "" || $scope.uploader == null) {
@@ -54,16 +54,7 @@
                 $scope.files.splice(i, 1);
             }
         }
-
-        loadAll = function () {
-            Album.query(function (result) {
-                $scope.images = result;
-                console.log(result);
-            });
-        };
-
-        loadAll();
-
+        
     }
 
 }());

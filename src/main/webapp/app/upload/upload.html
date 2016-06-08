@@ -65,8 +65,11 @@
         </div>
     </div>
     <!-- official, uploaded, honeymoon -->
-    <ng-gallery images="images">
-    </ng-gallery>
+    <div ng-repeat="album in images">
+        <h2>{{album.name}}</h2>
+        <ng-gallery images="album.pictures">
+        </ng-gallery>
+    </div>
 
 
     <div class="row" style="padding-top: 30px;">
